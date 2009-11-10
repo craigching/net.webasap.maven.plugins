@@ -59,9 +59,18 @@
   		</properties>
   		<bundleGroups>
   			<bundleGroup>
-  				<startLevel>5</startLevel>
+  				<startLevel>3</startLevel>
   				<includes>
   					<include>org.slf4j:slf4j-api</include>
+  					<include>org.springframework:spring-core</include>
+  					<include>org.springframework.osgi:spring-osgi-core</include>
+  				</includes>
+  			</bundleGroup>
+  			<bundleGroup>
+  				<startLevel>4</startLevel>
+  				<includes>
+  					<include>org.springframework.osgi:spring-osgi-extender</include>
+  					<include>org.springframework.osgi:spring-osgi-io</include>
   				</includes>
   			</bundleGroup>
   		</bundleGroups>
@@ -77,10 +86,53 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>2.5.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>2.5.6</version>
+      <scope>provided</scope>
+    </dependency>
+      <dependency>
+        <groupId>org.springframework.osgi</groupId>
+        <artifactId>spring-osgi-core</artifactId>
+        <version>${spring-dm-version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.osgi</groupId>
+        <artifactId>spring-osgi-io</artifactId>
+        <version>${spring-dm-version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.osgi</groupId>
+        <artifactId>spring-osgi-extender</artifactId>
+        <version>${spring-dm-version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.osgi</groupId>
+        <artifactId>spring-osgi-web</artifactId>
+        <version>${spring-dm-version}</version>
+      </dependency>
+	<!--
+    <dependency>
+      <groupId></groupId>
+      <artifactId></artifactId>
+      <version></version>
+      <scope>provided</scope>
+    </dependency>
+   	-->
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <properties>
+  	<spring-dm-version>1.2.0</spring-dm-version>
+  </properties>
 </project>

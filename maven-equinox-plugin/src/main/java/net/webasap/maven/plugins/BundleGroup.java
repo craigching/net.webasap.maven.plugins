@@ -1,5 +1,10 @@
 package net.webasap.maven.plugins;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.maven.artifact.Artifact;
+
 /*
  * Copyright 2009 Craig L. Ching
  *
@@ -20,6 +25,7 @@ public class BundleGroup {
 	
 	private int startLevel = 5;
 	private String [] includes;
+	private List<Artifact> artifacts = new LinkedList<Artifact>();
 	
 	public void setStartLevel (int startLevel) {
 		this.startLevel = startLevel;
@@ -35,6 +41,14 @@ public class BundleGroup {
 	
 	public String [] getIncludes() {
 		return this.includes;
+	}
+	
+	public void addArtifact(Artifact a) {
+		this.artifacts.add(a);
+	}
+	
+	public List<Artifact> getArtifacts() {
+		return this.artifacts;
 	}
 
 }

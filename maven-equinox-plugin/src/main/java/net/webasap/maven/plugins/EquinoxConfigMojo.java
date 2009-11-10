@@ -73,11 +73,29 @@ public class EquinoxConfigMojo
     public void execute()
         throws MojoExecutionException
     {
+    	Set<Artifact> projectArtifacts = project.getArtifacts();
     	for (BundleGroup bg : this.bundleGroups) {
     		getLog().info("====== Bundle Group: Start Level: " + bg.getStartLevel());
     		String [] includes = bg.getIncludes();
     		for (String i : includes) {
     			getLog().info("Bundle: " + i);
+    			String [] s = i.split(":");
+    			String groupId = s[0];
+    			String artifactId = s[1];
+    			Artifact found = null;
+    			for (Artifact a : projectArtifacts) {
+    				if (a.getArtifactId().equals(artifactId) && a.getGroupId().equals(groupId)) {
+    					found = a;
+    					break;
+    				}
+    			}
+    			
+    			if (found != null) {
+    				projectArtifacts.remove(found);
+    				bg.addArtifact(found);
+    			} else {
+    				getLog().error("No such artifact in project dependencies: " + i);
+    			}
     		}
     		getLog().info("=================");
     	}
@@ -103,9 +121,16 @@ public class EquinoxConfigMojo
         		w.write(k + "=" + v + LINE_SEP);
         	}
         	w.write("osgi.bundles=\\" + LINE_SEP);
-        	Set<Artifact> projectArtifacts = project.getArtifacts();
         	getLog().info(projectArtifacts.size() + " artifacts.");
+        	for (BundleGroup bg : bundleGroups) {
+        		int startLevel = bg.getStartLevel();
+        		List<Artifact> artifacts = bg.getArtifacts();
+        		for (Artifact a : artifacts) {
+            		w.write("reference:file:" + bundlesDir + "/" + a.getFile().getName() + "@" + startLevel + ":start,\\" + LINE_SEP);
+        		}
+        	}
         	for (Artifact a : projectArtifacts) {
+        		// TODO If a bundle is a fragment, don't start it
         		w.write("reference:file:" + bundlesDir + "/" + a.getFile().getName() + "@start,\\" + LINE_SEP);
         	}
         }
